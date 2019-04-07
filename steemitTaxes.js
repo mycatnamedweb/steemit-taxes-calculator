@@ -1,10 +1,3 @@
-// no responsability
-// no refunds - so higher
-// $400, github, ..
-// https://steemdb.com/@marcocasario/transfers?page=-1 -> throws an error and there is an information disclosure vulnerability. From the plain error printed out on the webpage is possible to understand which specific programming language and database is in use for the application.
-// need to enable pop ups in your browser when asked to
-// Subtract transfers from exchanges
-
 // ==================================== EDIT THESE ============
 const TARGET_YEAR = '';
 // ============================================================

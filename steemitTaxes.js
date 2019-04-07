@@ -22,7 +22,8 @@ const targetYear = TARGET_YEAR || 2018;
 const isTransactionToMyself = (all, i) => all[i].parentElement.parentElement.innerText.split('\n')[0].trim().split(' ').pop().slice(-(user.length)) === user;
 const isSBDTransaction = (all, i) =>  all[i].parentElement.parentElement.innerText.trim().slice(-3) === 'SBD'
 const isSTEEMTransaction = (all, i) =>  all[i].parentElement.parentElement.innerText.trim().slice(-5) === 'STEEM'
-const isTargetYearTransactions = (all, i, targetYear) => all[i].parentElement.parentElement.innerText.substr(0,4) === `${targetYear}`;
+const getYear = (target) => target.parentElement.parentElement.innerText.substr(0,4);
+const isTargetYearTransactions = (all, i, targetYear) => getYear(all[i]) === `${targetYear}`;
 
 async function getTransfersSum(win, page) {
   let currentPage = win.document.querySelectorAll('a[class="paginate_button item active"]')[0];
@@ -36,10 +37,16 @@ async function getTransfersSum(win, page) {
   if (!all.length) return 404;
   const allSBD = [];
   const allSTEEM = [];
-  all.forEach((e,i) => { if(isTransactionToMyself(all, i) && isTargetYearTransactions(all, i, targetYear)) {
-    if (isSBDTransaction(all, i)) { allSBD.push(e.innerText) }
-    else if (isSTEEMTransaction(all, i)) { allSTEEM.push(e.innerText) }
-  }});
+  all.forEach((e,i) => {
+    if(isTransactionToMyself(all, i)) {
+      if (isTargetYearTransactions(all, i, targetYear)) {
+        if (isSBDTransaction(all, i)) { allSBD.push(e.innerText) }
+        else if (isSTEEMTransaction(all, i)) { allSTEEM.push(e.innerText) }
+      } else if (+getYear(all[1] === targetYear - 1)) {
+        return 404; // stop processing pages if eg. we target 2018 and we arrived to 2017
+      }
+    }
+  });
   let countSBD = 0;
   allSBD.forEach(e => {countSBD+=(+e)});
   let countSTEEM = 0;

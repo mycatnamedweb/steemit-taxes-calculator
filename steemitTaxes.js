@@ -50,7 +50,7 @@ async function getTransfersSum(win, page) {
 // TRANSACTIONS PAGES SCRAPING
 async function scrapeTransactions() {
   console.log(`Scraping Transactions pages to sum transactions for target year ${targetYear}`);
-  for (let page = 1; page < 20; page++) {
+  for (let page = 1; page < 1000; page++) {
     const currentWindow = open(`${window.location.href}/transfers?page=${page}`);
     console.log(`Waiting for transactions page ${page} to load..`);
     await sleep(5000);

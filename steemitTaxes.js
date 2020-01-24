@@ -1,5 +1,5 @@
-// ==================================== EDIT THESE ============
-const TARGET_YEAR = '';
+// ==================================== EDIT THIS ============
+const TARGET_YEAR = ''; // eg. '2018'
 // ============================================================
 
 
@@ -16,7 +16,7 @@ if (!user || user.split('/').length > 1) {
   alert(msg);
   throw new Error(msg);
 }
-const targetYear = TARGET_YEAR || 2018;
+const targetYear = +TARGET_YEAR || 2018;
 
 // TRANSFER - PAGE N
 const isTransactionToMyself = (all, i) => all[i].parentElement.parentElement.innerText.split('\n')[0].trim().split(' ').pop().slice(-(user.length)) === user;
@@ -48,9 +48,9 @@ async function getTransfersSum(win, page) {
     }
   });
   let countSBD = 0;
-  allSBD.forEach(e => {countSBD+=(+e)});
+  allSBD.forEach(e => {countSBD+=(+e.replace(',',''))});
   let countSTEEM = 0;
-  allSTEEM.forEach(e => {countSTEEM+=(+e)});
+  allSTEEM.forEach(e => {countSTEEM+=(+e.replace(',',''))});
   return { sbdSum: countSBD, steemSum: countSTEEM };
 }
 
